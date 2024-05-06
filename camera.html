@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8" />
+
+
+
+<style>
+body{
+  margin:0;
+  background-color:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow: hidden;
+}
+canvas {
+  //display:none;
+  position: absolute;
+  transform: scaleX(-1);
+  z-index: 0;
+  top: 0;
+}
+
+video{
+  display:block;
+  transform: scaleX(-1);
+}
+
+@media screen and (max-width: 500px) {
+  
+}
+</style>
+
+
+  <title>camera switch</title>
+
+</head>
+
+<body>
+  <div class="container">
+    <video autoplay playsinline id="video"></video>
+  </div>
+</body>
+  
+<script id="rendered-js" type="module">
+let video = document.getElementById("video");
+console.log(video);
+let cameraIndex = 0;
+video.onclick = function() {
+	const cameras = [];
+	navigator.mediaDevices.enumerateDevices()
+	.then(function(devices) {
+		devices.forEach(function(device) {
+			if(device.kind === "videoinput") {
+				cameras.push(device);
+			}
+		});
+console.log(cameras);
+		cameraIndex++;
+		if(cameraIndex >= cameras.length) cameraIndex = 0;
+		navigator.mediaDevices.getUserMedia({
+			video: {
+				deviceId: {
+					exact: cameras[cameraIndex].deviceId,
+				},
+			},
+		}).then(stream => {
+			video.srcObject = stream;
+			video.play();
+		}).catch(e => {
+			console.log(e)
+		});
+	})
+	.catch(function(err) {
+		console.log(err.name + ": " + err.message);
+	});
+}
+video.onclick();
+</script>
+
+  
+</body>
+
+</html>
