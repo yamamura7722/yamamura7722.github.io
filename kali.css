@@ -1,0 +1,39 @@
+.preview {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    border-radius: 8px;
+    background: #222;
+}
+video {
+    display: none;
+    max-width: 400px;
+    height: auto;
+    //transform: scaleX(-1);
+}
+.preview {
+    transform: scaleX(-1);
+}
+body {
+  margin: 0;
+  overflow: hidden;
+}
+canvas {
+//    display: block;
+}
+.guides {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    z-index: 1;
+}
+@media only screen and (max-width: 600px) {
+    video {
+        max-width: 160px;
+    }
+}
